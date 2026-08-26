@@ -11,7 +11,6 @@ try:
 except ImportError:
     GEMINI_OK = False
 
-
 st.set_page_config(
     page_title="Checklist à toute épreuve",
     page_icon="✅",
@@ -19,307 +18,311 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-DATA_FILE = "checklist_toute_epreuve_v24.json"
+DATA_FILE = "checklist_toute_epreuve_v25.json"
 
+st.markdown("""
+<style>
 
-st.markdown(
-    """
-    <style>
+html, body, [class*="css"], .stApp {
+    color: #111827 !important;
+}
 
-    .stApp {
-        background:
-            radial-gradient(circle at 5% 5%, rgba(59,130,246,.25), transparent 32%),
-            radial-gradient(circle at 95% 15%, rgba(124,58,237,.22), transparent 32%),
-            linear-gradient(135deg, #eef6ff 0%, #f8f5ff 50%, #effcff 100%);
-        background-attachment: fixed;
-    }
+.stApp {
+    background: linear-gradient(135deg, #eef6ff 0%, #f8f5ff 50%, #effcff 100%);
+}
 
-    .main .block-container {
-        max-width: 900px;
-        padding-top: 1.2rem;
-        padding-bottom: 4rem;
-    }
+.main .block-container {
+    max-width: 900px;
+    padding-top: 1.2rem;
+    padding-bottom: 4rem;
+}
 
-    .logo {
-        width: 90px;
-        height: 90px;
-        margin: 0 auto 12px auto;
-        border-radius: 27px;
-        background: linear-gradient(135deg, #2563eb, #7c3aed);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 46px;
-        box-shadow: 0 18px 40px rgba(37,99,235,.28);
-    }
+.logo {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 12px auto;
+    border-radius: 27px;
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 46px;
+    box-shadow: 0 18px 40px rgba(37,99,235,.28);
+}
+
+.app-title {
+    text-align: center;
+    font-size: 45px;
+    font-weight: 900;
+    color: #172554 !important;
+    letter-spacing: -2px;
+}
+
+.app-subtitle {
+    text-align: center;
+    font-size: 17px;
+    color: #334155 !important;
+    margin-bottom: 25px;
+}
+
+.glass,
+.feature,
+.folder,
+.progress-card,
+.done-card,
+.premium-card {
+    color: #111827 !important;
+}
+
+.glass {
+    padding: 24px;
+    border-radius: 25px;
+    background: rgba(255,255,255,.96);
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 15px 40px rgba(15,23,42,.08);
+    margin-bottom: 18px;
+}
+
+.glass h1,
+.glass h2,
+.glass h3,
+.glass p {
+    color: #111827 !important;
+}
+
+.welcome {
+    padding: 27px;
+    border-radius: 27px;
+    color: white !important;
+    background: linear-gradient(135deg, #2563eb, #4f46e5, #7c3aed);
+    box-shadow: 0 20px 45px rgba(79,70,229,.28);
+    margin-bottom: 20px;
+}
+
+.welcome h2,
+.welcome p {
+    color: white !important;
+}
+
+.feature {
+    padding: 20px;
+    border-radius: 22px;
+    background: rgba(255,255,255,.96);
+    border: 1px solid #e2e8f0;
+    min-height: 140px;
+    margin-bottom: 15px;
+}
+
+.feature h3,
+.feature p {
+    color: #111827 !important;
+}
+
+.feature-icon {
+    font-size: 32px;
+}
+
+.folder {
+    padding: 22px;
+    border-radius: 23px;
+    background: #ffffff;
+    border: 2px solid #bfdbfe;
+    box-shadow: 0 12px 30px rgba(37,99,235,.09);
+    margin-bottom: 16px;
+}
+
+.folder h2,
+.folder p {
+    color: #111827 !important;
+}
+
+.progress-card {
+    padding: 18px;
+    border-radius: 20px;
+    background: #eff6ff;
+    border: 2px solid #bfdbfe;
+    margin: 15px 0;
+}
+
+.progress-card h3,
+.progress-card p {
+    color: #111827 !important;
+}
+
+.done-card {
+    padding: 18px;
+    border-radius: 20px;
+    background: #ecfdf5;
+    border: 2px solid #34d399;
+    margin: 15px 0;
+}
+
+.done-card,
+.done-card b {
+    color: #065f46 !important;
+}
+
+.premium-card {
+    padding: 22px;
+    border-radius: 23px;
+    background: #fff7ed;
+    border: 2px solid #f59e0b;
+    margin: 18px 0;
+}
+
+.premium-card h3,
+.premium-card p,
+.premium-card b {
+    color: #111827 !important;
+}
+
+.footer {
+    text-align: center;
+    color: #475569 !important;
+    font-size: 13px;
+    padding: 25px 5px;
+}
+
+.footer b {
+    color: #111827 !important;
+}
+
+.stMarkdown,
+.stMarkdown p,
+.stMarkdown span,
+.stText,
+label,
+.stCaption,
+[data-testid="stCaptionContainer"] {
+    color: #111827 !important;
+}
+
+.stTextInput label,
+.stTextArea label,
+.stNumberInput label,
+.stSelectbox label,
+.stFileUploader label {
+    color: #111827 !important;
+}
+
+input,
+textarea,
+select,
+[data-baseweb="select"] > div,
+[data-baseweb="input"] > div {
+    background-color: #ffffff !important;
+    color: #111827 !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #64748b !important;
+    opacity: 1 !important;
+}
+
+[data-baseweb="select"] span {
+    color: #111827 !important;
+}
+
+.stCheckbox label {
+    color: #111827 !important;
+}
+
+.stCheckbox label span {
+    color: #111827 !important;
+}
+
+.stRadio label {
+    color: #111827 !important;
+}
+
+.stButton > button {
+    border-radius: 15px;
+    min-height: 48px;
+    font-weight: 700;
+    background-color: #ffffff !important;
+    color: #111827 !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+.stButton > button:hover {
+    border-color: #2563eb !important;
+    color: #2563eb !important;
+}
+
+[data-testid="stExpander"] {
+    background-color: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+[data-testid="stExpander"] summary,
+[data-testid="stExpander"] summary p {
+    color: #111827 !important;
+}
+
+[data-testid="stMetric"] {
+    background-color: #ffffff !important;
+    padding: 15px;
+    border-radius: 15px;
+    border: 1px solid #e2e8f0;
+}
+
+[data-testid="stMetricLabel"],
+[data-testid="stMetricValue"] {
+    color: #111827 !important;
+}
+
+hr {
+    border-color: #cbd5e1 !important;
+}
+
+@media (max-width: 600px) {
 
     .app-title {
-        text-align: center;
-        font-size: 45px;
-        font-weight: 900;
+        font-size: 34px;
         color: #172554 !important;
-        letter-spacing: -2px;
     }
 
     .app-subtitle {
-        text-align: center;
-        font-size: 17px;
-        color: #475569 !important;
-        margin-bottom: 25px;
+        font-size: 15px;
+        color: #334155 !important;
     }
 
-    .glass {
-        padding: 24px;
-        border-radius: 25px;
-        background: rgba(255,255,255,.92);
-        border: 1px solid rgba(255,255,255,.95);
-        box-shadow: 0 15px 40px rgba(15,23,42,.08);
-        margin-bottom: 18px;
-        color: #172554 !important;
+    .main .block-container {
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
 
-    .glass p,
-    .glass h2,
-    .glass h3 {
-        color: #172554 !important;
+    .logo {
+        width: 76px;
+        height: 76px;
+        font-size: 38px;
     }
 
-    .welcome {
-        padding: 27px;
-        border-radius: 27px;
-        color: white !important;
-        background: linear-gradient(135deg, #2563eb, #4f46e5, #7c3aed);
-        box-shadow: 0 20px 45px rgba(79,70,229,.28);
-        margin-bottom: 20px;
-    }
-
-    .welcome h2 {
-        color: white !important;
-        margin-bottom: 8px;
-    }
-
-    .welcome p {
-        color: #eef2ff !important;
-        margin-bottom: 0;
-    }
-
-    .feature {
-        padding: 20px;
-        border-radius: 22px;
-        background: rgba(255,255,255,.94);
-        border: 1px solid #e2e8f0;
-        min-height: 140px;
-        margin-bottom: 15px;
-        color: #172554 !important;
-    }
-
-    .feature h3,
-    .feature p {
-        color: #172554 !important;
-    }
-
-    .feature-icon {
-        font-size: 32px;
-    }
-
-    .folder {
-        padding: 22px;
-        border-radius: 23px;
-        background: linear-gradient(135deg, rgba(255,255,255,.97), rgba(239,246,255,.97));
-        border: 2px solid #bfdbfe;
-        box-shadow: 0 12px 30px rgba(37,99,235,.09);
-        margin-bottom: 16px;
-        color: #172554 !important;
-    }
-
-    .folder h2,
-    .folder p {
-        color: #172554 !important;
-    }
-
-    .progress-card {
-        padding: 18px;
-        border-radius: 20px;
-        background: #eff6ff;
-        border: 2px solid #bfdbfe;
-        margin: 15px 0;
-        color: #172554 !important;
-    }
-
-    .progress-card h3,
-    .progress-card p {
-        color: #172554 !important;
-    }
-
-    .done-card {
-        padding: 18px;
-        border-radius: 20px;
-        background: #ecfdf5;
-        border: 2px solid #34d399;
-        margin: 15px 0;
-        color: #064e3b !important;
-    }
-
+    .glass,
+    .feature,
+    .folder,
+    .progress-card,
+    .done-card,
     .premium-card {
-        padding: 22px;
-        border-radius: 23px;
-        background: linear-gradient(135deg, #fff7ed, #fef3c7);
-        border: 2px solid #f59e0b;
-        margin: 18px 0;
-        color: #172554 !important;
+        background: #ffffff !important;
     }
 
-    .premium-card h3,
-    .premium-card p,
-    .premium-card b {
-        color: #172554 !important;
-    }
-
-    .footer {
-        text-align: center;
-        color: #475569 !important;
-        font-size: 13px;
-        padding: 25px 5px;
+    input,
+    textarea,
+    select {
+        background-color: #ffffff !important;
+        color: #111827 !important;
     }
 
     .stButton > button {
-        border-radius: 15px;
-        min-height: 48px;
-        font-weight: 700;
+        background-color: #ffffff !important;
+        color: #111827 !important;
     }
+}
 
-    /* CORRECTION DES CHAMPS STREAMLIT */
-
-    .stTextInput input,
-    .stTextArea textarea,
-    .stNumberInput input {
-        background-color: white !important;
-        color: #172554 !important;
-        -webkit-text-fill-color: #172554 !important;
-        border: 1px solid #cbd5e1 !important;
-    }
-
-    .stTextInput input::placeholder,
-    .stTextArea textarea::placeholder {
-        color: #64748b !important;
-        -webkit-text-fill-color: #64748b !important;
-        opacity: 1 !important;
-    }
-
-    .stSelectbox [data-baseweb="select"] {
-        background-color: white !important;
-        color: #172554 !important;
-    }
-
-    .stSelectbox [data-baseweb="select"] * {
-        color: #172554 !important;
-    }
-
-    .stCheckbox label,
-    .stRadio label {
-        color: #172554 !important;
-    }
-
-    .stCheckbox label span,
-    .stRadio label span {
-        color: #172554 !important;
-    }
-
-    [data-baseweb="popover"] {
-        background-color: white !important;
-    }
-
-    [data-baseweb="menu"] {
-        background-color: white !important;
-    }
-
-    [data-baseweb="menu"] * {
-        color: #172554 !important;
-    }
-
-    /* TEXTE STREAMLIT */
-
-    .stMarkdown,
-    .stMarkdown p,
-    .stMarkdown li,
-    .stCaption,
-    .stAlert,
-    .stInfo,
-    .stWarning,
-    .stSuccess,
-    .stError {
-        color: #172554;
-    }
-
-    /* BOUTONS */
-
-    .stButton > button {
-        background-color: white;
-        color: #172554 !important;
-        border: 1px solid #cbd5e1;
-    }
-
-    .stButton > button:hover {
-        color: #172554 !important;
-        border-color: #2563eb;
-    }
-
-    /* MOBILE */
-
-    @media (max-width: 600px) {
-
-        .app-title {
-            font-size: 34px;
-            color: #172554 !important;
-        }
-
-        .app-subtitle {
-            font-size: 15px;
-            color: #475569 !important;
-        }
-
-        .main .block-container {
-            padding-left: 1rem;
-            padding-right: 1rem;
-        }
-
-        .logo {
-            width: 76px;
-            height: 76px;
-            font-size: 38px;
-        }
-
-        .glass,
-        .feature,
-        .folder,
-        .progress-card,
-        .premium-card {
-            color: #172554 !important;
-        }
-
-        .stTextInput input,
-        .stTextArea textarea,
-        .stNumberInput input {
-            background-color: #ffffff !important;
-            color: #172554 !important;
-            -webkit-text-fill-color: #172554 !important;
-        }
-
-        .stSelectbox [data-baseweb="select"] {
-            background-color: #ffffff !important;
-            color: #172554 !important;
-        }
-
-        .stButton > button {
-            background-color: #ffffff !important;
-            color: #172554 !important;
-        }
-    }
-
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+</style>
+""", unsafe_allow_html=True)
 
 
 def donnees_vides():
@@ -420,8 +423,7 @@ def calculer_progression(dossier):
         return 0, 0, 0
 
     faits = sum(
-        1
-        for document in documents
+        1 for document in documents
         if document in coches
     )
 
@@ -460,6 +462,7 @@ def obtenir_client_gemini():
 
     try:
         return genai.Client(api_key=cle)
+
     except Exception:
         return None
 
@@ -525,6 +528,7 @@ def checklist_demarche(situation, logement):
     resultat = []
 
     for document in documents:
+
         if document not in resultat:
             resultat.append(document)
 
@@ -554,10 +558,6 @@ Documents attendus :
 {checklist_text}
 
 Analyse le document fourni.
-
-Objectif :
-Déterminer si le document semble correspondre
-à l'un des documents attendus.
 
 Réponds en français.
 
@@ -608,6 +608,7 @@ Règles importantes :
         return response.text
 
     except Exception as erreur:
+
         return "ERREUR_ANALYSE\n" + str(erreur)
 
 
@@ -647,15 +648,13 @@ Règles :
         return response.text
 
     except Exception as erreur:
+
         return "Une erreur est survenue : " + str(erreur)
 
 
 if st.session_state.profil is None:
 
-    st.markdown(
-        '<div class="logo">✅</div>',
-        unsafe_allow_html=True
-    )
+    st.markdown('<div class="logo">✅</div>', unsafe_allow_html=True)
 
     st.markdown(
         '<div class="app-title">Checklist à toute épreuve</div>',
@@ -663,9 +662,7 @@ if st.session_state.profil is None:
     )
 
     st.markdown(
-        '<div class="app-subtitle">'
-        'Votre assistant pour préparer vos démarches administratives.'
-        '</div>',
+        '<div class="app-subtitle">Votre assistant pour préparer vos démarches administratives.</div>',
         unsafe_allow_html=True
     )
 
@@ -673,25 +670,15 @@ if st.session_state.profil is None:
         """
         <div class="glass">
         <h2>👋 Bienvenue !</h2>
-        <p>
-        Créez votre profil pour commencer à préparer
-        vos démarches.
-        </p>
-        <p>
-        🆓 Version actuelle gratuite
-        </p>
+        <p>Créez votre profil pour commencer à préparer vos démarches.</p>
+        <p>🆓 Version actuelle gratuite</p>
         </div>
         """,
         unsafe_allow_html=True
     )
 
     prenom = st.text_input("Prénom")
-
-    nom = st.text_input(
-        "Nom",
-        placeholder="Facultatif"
-    )
-
+    nom = st.text_input("Nom", placeholder="Facultatif")
     email = st.text_input("Email")
 
     age = st.number_input(
@@ -703,11 +690,7 @@ if st.session_state.profil is None:
 
     nationalite = st.selectbox(
         "Nationalité",
-        [
-            "Française",
-            "Européenne",
-            "Autre"
-        ]
+        ["Française", "Européenne", "Autre"]
     )
 
     logement = st.selectbox(
@@ -744,7 +727,6 @@ if st.session_state.profil is None:
             sauvegarder()
 
             st.success("🎉 Profil créé !")
-
             st.rerun()
 
     st.stop()
@@ -752,11 +734,7 @@ if st.session_state.profil is None:
 
 profil = st.session_state.profil
 
-
-st.markdown(
-    '<div class="logo">✅</div>',
-    unsafe_allow_html=True
-)
+st.markdown('<div class="logo">✅</div>', unsafe_allow_html=True)
 
 st.markdown(
     '<div class="app-title">Checklist à toute épreuve</div>',
@@ -764,9 +742,7 @@ st.markdown(
 )
 
 st.markdown(
-    '<div class="app-subtitle">'
-    'Simple • Clair • Organisé'
-    '</div>',
+    '<div class="app-subtitle">Simple • Clair • Organisé</div>',
     unsafe_allow_html=True
 )
 
@@ -815,10 +791,7 @@ def afficher_dossier(dossier):
         f"""
         <div class="progress-card">
         <h3>📊 Progression</h3>
-        <p>
-        <b>{faits}</b> document(s) vérifié(s)
-        sur <b>{total}</b>.
-        </p>
+        <p><b>{faits}</b> document(s) vérifié(s) sur <b>{total}</b>.</p>
         </div>
         """,
         unsafe_allow_html=True
@@ -834,8 +807,7 @@ def afficher_dossier(dossier):
             """
             <div class="done-card">
             🎉 <b>Dossier prêt !</b><br>
-            Tous les documents de la checklist
-            sont cochés.
+            Tous les documents de la checklist sont cochés.
             </div>
             """,
             unsafe_allow_html=True
@@ -843,9 +815,7 @@ def afficher_dossier(dossier):
 
     st.markdown("### ✅ Ma checklist")
 
-    st.caption(
-        "Coche les documents que tu possèdes déjà."
-    )
+    st.caption("Coche les documents que tu possèdes déjà.")
 
     with st.form(key="checklist_form_" + dossier["id"]):
 
@@ -857,19 +827,11 @@ def afficher_dossier(dossier):
 
             nouvelles_cases[document] = st.checkbox(
                 document,
-                value=(
-                    document
-                    in dossier.get(
-                        "documents_coches",
-                        []
-                    )
+                value=document in dossier.get(
+                    "documents_coches",
+                    []
                 ),
-                key=(
-                    "document_"
-                    + dossier["id"]
-                    + "_"
-                    + str(i)
-                )
+                key="document_" + dossier["id"] + "_" + str(i)
             )
 
         sauvegarder_checklist = st.form_submit_button(
@@ -903,11 +865,10 @@ def afficher_dossier(dossier):
         <h3>🤖 Vérification intelligente</h3>
         <p>
         Importez une photo ou un scan d'un document.
-        L'assistant peut comparer le document avec
-        votre checklist.
+        L'assistant peut comparer le document avec votre checklist.
         </p>
-        <b>⚠️ Cette fonction utilise une IA et ne remplace
-        pas une vérification officielle.</b>
+        <b>⚠️ Cette fonction utilise une IA et ne remplace pas
+        une vérification officielle.</b>
         </div>
         """,
         unsafe_allow_html=True
@@ -915,19 +876,13 @@ def afficher_dossier(dossier):
 
     fichier = st.file_uploader(
         "Photo ou scan du document",
-        type=[
-            "png",
-            "jpg",
-            "jpeg"
-        ],
+        type=["png", "jpg", "jpeg"],
         key="upload_" + dossier["id"]
     )
 
     if fichier:
 
-        st.success(
-            f"📄 Document reçu : {fichier.name}"
-        )
+        st.success(f"📄 Document reçu : {fichier.name}")
 
         st.image(
             fichier,
@@ -942,55 +897,39 @@ def afficher_dossier(dossier):
 
             if not GEMINI_OK:
 
-                st.error(
-                    "❌ Le module Gemini n'est pas installé."
-                )
+                st.error("❌ Le module Gemini n'est pas installé.")
 
-                st.code(
-                    "py -m pip install google-genai"
-                )
+                st.code("py -m pip install google-genai")
 
             elif not gemini_configure():
 
                 st.error(
-                    "❌ GEMINI_API_KEY n'est pas configurée "
-                    "dans Streamlit Secrets."
+                    "❌ GEMINI_API_KEY n'est pas configurée dans Streamlit Secrets."
                 )
 
                 st.info(
-                    "Allez dans Settings → Secrets "
-                    "et ajoutez GEMINI_API_KEY."
+                    "Allez dans Settings → Secrets et ajoutez GEMINI_API_KEY."
                 )
 
             else:
 
-                with st.spinner(
-                    "🤖 Analyse du document..."
-                ):
+                with st.spinner("🤖 Analyse du document..."):
 
                     resultat = analyser_document(
                         fichier,
                         dossier["nom"],
-                        dossier.get(
-                            "documents",
-                            []
-                        )
+                        dossier.get("documents", [])
                     )
 
                 if resultat:
 
-                    st.success(
-                        "✅ Analyse terminée !"
-                    )
+                    st.success("✅ Analyse terminée !")
 
                     st.markdown("### 🤖 Résultat")
 
                     st.markdown(resultat)
 
-                    dossier.setdefault(
-                        "analyses",
-                        []
-                    )
+                    dossier.setdefault("analyses", [])
 
                     dossier["analyses"].append(
                         {
@@ -1020,10 +959,7 @@ def afficher_dossier(dossier):
             ):
 
                 st.markdown(
-                    analyse.get(
-                        "resultat",
-                        ""
-                    )
+                    analyse.get("resultat", "")
                 )
 
 
@@ -1033,10 +969,7 @@ if page == "🏠 Accueil":
         f"""
         <div class="welcome">
         <h2>👋 Bonjour {profil["prenom"]} !</h2>
-        <p>
-        Préparons votre prochaine démarche
-        simplement.
-        </p>
+        <p>Préparons votre prochaine démarche simplement.</p>
         </div>
         """,
         unsafe_allow_html=True
@@ -1051,9 +984,7 @@ if page == "🏠 Accueil":
 
     for dossier in dossiers:
 
-        faits, total, pourcentage = calculer_progression(
-            dossier
-        )
+        faits, total, pourcentage = calculer_progression(dossier)
 
         documents_faits += faits
         documents_total += total
@@ -1086,10 +1017,7 @@ if page == "🏠 Accueil":
             <div class="feature">
             <div class="feature-icon">📋</div>
             <h3>Préparer</h3>
-            <p>
-            Créez une checklist adaptée
-            à votre démarche.
-            </p>
+            <p>Créez une checklist adaptée à votre démarche.</p>
             </div>
             """,
             unsafe_allow_html=True
@@ -1102,10 +1030,7 @@ if page == "🏠 Accueil":
             <div class="feature">
             <div class="feature-icon">🤖</div>
             <h3>Vérifier</h3>
-            <p>
-            Faites analyser vos documents
-            avec l'assistant IA.
-            </p>
+            <p>Faites analyser vos documents avec l'assistant IA.</p>
             </div>
             """,
             unsafe_allow_html=True
@@ -1120,10 +1045,7 @@ if page == "🏠 Accueil":
             <div class="feature">
             <div class="feature-icon">📂</div>
             <h3>Organiser</h3>
-            <p>
-            Retrouvez toutes vos démarches
-            dans vos dossiers.
-            </p>
+            <p>Retrouvez toutes vos démarches dans vos dossiers.</p>
             </div>
             """,
             unsafe_allow_html=True
@@ -1136,10 +1058,7 @@ if page == "🏠 Accueil":
             <div class="feature">
             <div class="feature-icon">🧾</div>
             <h3>Tout préparer</h3>
-            <p>
-            Suivez votre progression
-            jusqu'à avoir terminé votre checklist.
-            </p>
+            <p>Suivez votre progression jusqu'à terminer votre checklist.</p>
             </div>
             """,
             unsafe_allow_html=True
@@ -1151,19 +1070,14 @@ if page == "🏠 Accueil":
 
         for dossier in dossiers[-3:]:
 
-            faits, total, pourcentage = calculer_progression(
-                dossier
-            )
+            faits, total, pourcentage = calculer_progression(dossier)
 
-            st.write(
-                f"**📋 {dossier['nom']}**"
-            )
+            st.write(f"**📋 {dossier['nom']}**")
 
             st.progress(pourcentage / 100)
 
             st.caption(
-                f"{faits}/{total} documents • "
-                f"{pourcentage}%"
+                f"{faits}/{total} documents • {pourcentage}%"
             )
 
 
@@ -1195,10 +1109,7 @@ elif page == "➕ Nouvelle démarche":
             f"""
             <div class="glass">
             <h2>🧾 {situation}</h2>
-            <p>
-            Votre checklist contiendra
-            <b>{len(documents)}</b> document(s).
-            </p>
+            <p>Votre checklist contiendra <b>{len(documents)}</b> document(s).</p>
             </div>
             """,
             unsafe_allow_html=True
@@ -1225,9 +1136,7 @@ elif page == "➕ Nouvelle démarche":
 
             sauvegarder()
 
-            st.success(
-                "🎉 Dossier créé avec succès !"
-            )
+            st.success("🎉 Dossier créé avec succès !")
 
             st.session_state.page = "📋 Mes dossiers"
 
@@ -1240,8 +1149,8 @@ elif page == "➕ Nouvelle démarche":
             <div class="premium-card">
             <h3>⭐ Démarche personnalisée</h3>
             <p>
-            Décrivez votre démarche et l'assistant
-            pourra créer une checklist personnalisée.
+            Décrivez votre démarche et l'assistant pourra créer
+            une checklist personnalisée.
             </p>
             </div>
             """,
@@ -1250,9 +1159,7 @@ elif page == "➕ Nouvelle démarche":
 
         question = st.text_area(
             "Quelle démarche voulez-vous faire ?",
-            placeholder=(
-                "Exemple : je veux demander une aide au logement"
-            ),
+            placeholder="Exemple : je veux demander une aide au logement",
             height=130
         )
 
@@ -1263,30 +1170,22 @@ elif page == "➕ Nouvelle démarche":
 
             if not question.strip():
 
-                st.warning(
-                    "⚠️ Décrivez votre démarche."
-                )
+                st.warning("⚠️ Décrivez votre démarche.")
 
             elif not GEMINI_OK:
 
-                st.error(
-                    "❌ Gemini n'est pas installé."
-                )
+                st.error("❌ Gemini n'est pas installé.")
 
-                st.code(
-                    "py -m pip install google-genai"
-                )
+                st.code("py -m pip install google-genai")
 
             elif not gemini_configure():
 
                 st.error(
-                    "❌ GEMINI_API_KEY n'est pas configurée "
-                    "dans Streamlit Secrets."
+                    "❌ GEMINI_API_KEY n'est pas configurée dans Streamlit Secrets."
                 )
 
                 st.info(
-                    "Allez dans Settings → Secrets "
-                    "et ajoutez GEMINI_API_KEY."
+                    "Allez dans Settings → Secrets et ajoutez GEMINI_API_KEY."
                 )
 
             else:
@@ -1359,9 +1258,7 @@ Règles :
                             documents
                         )
 
-                        st.session_state.dossiers.append(
-                            dossier
-                        )
+                        st.session_state.dossiers.append(dossier)
 
                         st.session_state.dossier_ouvert = dossier["id"]
 
@@ -1377,9 +1274,7 @@ Règles :
 
                 except Exception as erreur:
 
-                    st.error(
-                        "❌ Erreur pendant la création."
-                    )
+                    st.error("❌ Erreur pendant la création.")
 
                     st.code(str(erreur))
 
@@ -1396,10 +1291,7 @@ elif page == "📋 Mes dossiers":
             """
             <div class="glass">
             <h2>📭 Aucun dossier</h2>
-            <p>
-            Créez votre première démarche
-            pour commencer.
-            </p>
+            <p>Créez votre première démarche pour commencer.</p>
             </div>
             """,
             unsafe_allow_html=True
@@ -1427,10 +1319,7 @@ elif page == "📋 Mes dossiers":
                 dossier
                 for dossier in dossiers
                 if recherche.lower()
-                in dossier.get(
-                    "nom",
-                    ""
-                ).lower()
+                in dossier.get("nom", "").lower()
             ]
 
         else:
@@ -1438,14 +1327,11 @@ elif page == "📋 Mes dossiers":
             dossiers_affiches = dossiers
 
         if not dossiers_affiches:
-
             st.info("🔎 Aucun dossier trouvé.")
 
         for dossier in dossiers_affiches:
 
-            faits, total, pourcentage = calculer_progression(
-                dossier
-            )
+            faits, total, pourcentage = calculer_progression(dossier)
 
             with st.expander(
                 f"📋 {dossier['nom']} — {pourcentage}%",
@@ -1471,35 +1357,26 @@ elif page == "📋 Mes dossiers":
                         if d.get("id") != dossier["id"]
                     ]
 
-                    if (
-                        st.session_state.dossier_ouvert
-                        == dossier["id"]
-                    ):
-
+                    if st.session_state.dossier_ouvert == dossier["id"]:
                         st.session_state.dossier_ouvert = None
 
                     sauvegarder()
 
-                    st.success(
-                        "🗑️ Dossier supprimé."
-                    )
+                    st.success("🗑️ Dossier supprimé.")
 
                     st.rerun()
 
 
 elif page == "🤖 Assistant":
 
-    st.markdown(
-        "## 🤖 Assistant Checklist à toute épreuve"
-    )
+    st.markdown("## 🤖 Assistant Checklist à toute épreuve")
 
     st.markdown(
         """
         <div class="glass">
         <h3>💬 Une question ?</h3>
         <p>
-        Posez votre question concernant une démarche
-        administrative.
+        Posez votre question concernant une démarche administrative.
         </p>
         </div>
         """,
@@ -1508,9 +1385,7 @@ elif page == "🤖 Assistant":
 
     question = st.text_area(
         "Votre question",
-        placeholder=(
-            "Exemple : quels documents prévoir pour un passeport ?"
-        ),
+        placeholder="Exemple : quels documents prévoir pour un passeport ?",
         height=150
     )
 
@@ -1521,30 +1396,22 @@ elif page == "🤖 Assistant":
 
         if not question.strip():
 
-            st.warning(
-                "⚠️ Écrivez une question."
-            )
+            st.warning("⚠️ Écrivez une question.")
 
         elif not GEMINI_OK:
 
-            st.error(
-                "❌ Gemini n'est pas installé."
-            )
+            st.error("❌ Gemini n'est pas installé.")
 
-            st.code(
-                "py -m pip install google-genai"
-            )
+            st.code("py -m pip install google-genai")
 
         elif not gemini_configure():
 
             st.error(
-                "❌ GEMINI_API_KEY n'est pas configurée "
-                "dans Streamlit Secrets."
+                "❌ GEMINI_API_KEY n'est pas configurée dans Streamlit Secrets."
             )
 
             st.info(
-                "Allez dans Settings → Secrets "
-                "et ajoutez GEMINI_API_KEY."
+                "Allez dans Settings → Secrets et ajoutez GEMINI_API_KEY."
             )
 
         else:
@@ -1563,8 +1430,7 @@ elif page == "🤖 Assistant":
 
     st.caption(
         "⚠️ Les réponses de l'assistant sont indicatives. "
-        "Vérifiez toujours les informations auprès "
-        "de l'administration concernée."
+        "Vérifiez toujours les informations auprès de l'administration concernée."
     )
 
 
@@ -1577,8 +1443,7 @@ elif page == "👤 Profil":
         <div class="glass">
         <h3>👤 Vos informations</h3>
         <p>
-        Ces informations servent à personnaliser
-        vos démarches.
+        Ces informations servent à personnaliser vos démarches.
         </p>
         </div>
         """,
@@ -1667,9 +1532,7 @@ elif page == "👤 Profil":
 
         sauvegarder()
 
-        st.success(
-            "✅ Profil enregistré !"
-        )
+        st.success("✅ Profil enregistré !")
 
         st.rerun()
 
@@ -1680,12 +1543,7 @@ elif page == "👤 Profil":
         <div class="premium-card">
         <h3>🚀 Évolution de l'application</h3>
         <p>
-        La version actuelle ne contient pas encore
-        de système de paiement.
-        </p>
-        <p>
-        Les fonctions payantes pourront être ajoutées
-        dans une future version.
+        La version actuelle ne contient pas encore de système de paiement.
         </p>
         </div>
         """,
@@ -1697,8 +1555,7 @@ elif page == "👤 Profil":
     st.markdown("### 🗑️ Zone de suppression")
 
     confirmation = st.checkbox(
-        "Je confirme vouloir supprimer "
-        "mon profil et tous mes dossiers."
+        "Je confirme vouloir supprimer mon profil et tous mes dossiers."
     )
 
     if confirmation:
@@ -1730,8 +1587,7 @@ st.markdown(
     🆓 Version actuelle sans paiement • 💾 Données locales • 🤖 IA optionnelle
     <br><br>
     Les informations fournies sont indicatives.
-    Vérifiez toujours les informations auprès
-    de l'administration concernée.
+    Vérifiez toujours les informations auprès de l'administration concernée.
     </div>
     """,
     unsafe_allow_html=True
