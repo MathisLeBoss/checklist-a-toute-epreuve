@@ -12,10 +12,6 @@ except ImportError:
     GEMINI_OK = False
 
 
-# ============================================================
-# CONFIGURATION
-# ============================================================
-
 st.set_page_config(
     page_title="Checklist à toute épreuve",
     page_icon="✅",
@@ -26,10 +22,6 @@ st.set_page_config(
 
 DATA_FILE = "checklist_toute_epreuve_v24.json"
 
-
-# ============================================================
-# STYLE
-# ============================================================
 
 st.markdown(
     """
@@ -84,6 +76,13 @@ st.markdown(
         border: 1px solid rgba(255,255,255,.95);
         box-shadow: 0 15px 40px rgba(15,23,42,.08);
         margin-bottom: 18px;
+        color: #111827;
+    }
+
+    .glass h2,
+    .glass h3,
+    .glass p {
+        color: #111827;
     }
 
     .welcome {
@@ -112,6 +111,12 @@ st.markdown(
         border: 1px solid #e2e8f0;
         min-height: 140px;
         margin-bottom: 15px;
+        color: #111827;
+    }
+
+    .feature h3,
+    .feature p {
+        color: #111827;
     }
 
     .feature-icon {
@@ -125,6 +130,12 @@ st.markdown(
         border: 2px solid #bfdbfe;
         box-shadow: 0 12px 30px rgba(37,99,235,.09);
         margin-bottom: 16px;
+        color: #111827;
+    }
+
+    .folder h2,
+    .folder p {
+        color: #111827;
     }
 
     .progress-card {
@@ -133,6 +144,12 @@ st.markdown(
         background: #eff6ff;
         border: 2px solid #bfdbfe;
         margin: 15px 0;
+        color: #111827;
+    }
+
+    .progress-card h3,
+    .progress-card p {
+        color: #111827;
     }
 
     .done-card {
@@ -141,6 +158,7 @@ st.markdown(
         background: #ecfdf5;
         border: 2px solid #34d399;
         margin: 15px 0;
+        color: #111827;
     }
 
     .premium-card {
@@ -149,6 +167,13 @@ st.markdown(
         background: linear-gradient(135deg, #fff7ed, #fef3c7);
         border: 2px solid #f59e0b;
         margin: 18px 0;
+        color: #111827;
+    }
+
+    .premium-card h3,
+    .premium-card p,
+    .premium-card b {
+        color: #111827;
     }
 
     .footer {
@@ -185,6 +210,123 @@ st.markdown(
             font-size: 38px;
         }
 
+        /* TEXTE DES CHAMPS */
+        input,
+        textarea {
+            color: #111827 !important;
+            -webkit-text-fill-color: #111827 !important;
+            background-color: white !important;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #64748b !important;
+            -webkit-text-fill-color: #64748b !important;
+            opacity: 1 !important;
+        }
+
+        /* LABELS */
+        [data-testid="stWidgetLabel"] p {
+            color: #111827 !important;
+        }
+
+        .stTextInput label,
+        .stTextArea label,
+        .stNumberInput label,
+        .stSelectbox label,
+        .stCheckbox label,
+        .stRadio label {
+            color: #111827 !important;
+        }
+
+        /* CHECKBOXES */
+        [data-testid="stCheckbox"] label {
+            color: #111827 !important;
+        }
+
+        [data-testid="stCheckbox"] span {
+            color: #111827 !important;
+        }
+
+        /* MENUS */
+        [data-baseweb="select"] {
+            color: #111827 !important;
+        }
+
+        [data-baseweb="select"] * {
+            color: #111827 !important;
+        }
+
+        [role="option"] {
+            color: #111827 !important;
+        }
+
+        /* RADIO / NAVIGATION */
+        [data-testid="stRadio"] label {
+            color: #111827 !important;
+        }
+
+        [data-testid="stRadio"] span {
+            color: #111827 !important;
+        }
+
+        /* BOUTONS */
+        [data-testid="stButton"] button {
+            color: #111827 !important;
+        }
+
+        [data-testid="stFormSubmitButton"] button {
+            color: #111827 !important;
+        }
+
+        /* MÉTRIQUES */
+        [data-testid="stMetricLabel"] {
+            color: #111827 !important;
+        }
+
+        [data-testid="stMetricValue"] {
+            color: #111827 !important;
+        }
+
+        /* CAPTIONS */
+        [data-testid="stCaptionContainer"] {
+            color: #475569 !important;
+        }
+
+        /* TEXTE STREAMLIT CLASSIQUE */
+        [data-testid="stMarkdownContainer"] p {
+            color: #111827;
+        }
+
+        [data-testid="stMarkdownContainer"] li {
+            color: #111827;
+        }
+
+        /* ON GARDE LE TEXTE BLANC DU BLOC BLEU */
+        .welcome p {
+            color: #eef2ff !important;
+        }
+
+        .welcome h2 {
+            color: white !important;
+        }
+
+        /* TITRES DES BLOCS */
+        .glass h2,
+        .glass h3,
+        .glass p,
+        .feature h3,
+        .feature p,
+        .folder h2,
+        .folder p,
+        .progress-card h3,
+        .progress-card p,
+        .premium-card h3,
+        .premium-card p,
+        .premium-card b {
+            color: #111827 !important;
+        }
+
     }
 
     </style>
@@ -192,10 +334,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
-# ============================================================
-# DONNÉES
-# ============================================================
 
 def donnees_vides():
     return {
@@ -271,10 +409,6 @@ if "dossier_ouvert" not in st.session_state:
     st.session_state.dossier_ouvert = None
 
 
-# ============================================================
-# OUTILS
-# ============================================================
-
 def nouvel_id():
     return str(uuid.uuid4())
 
@@ -316,23 +450,7 @@ def calculer_progression(dossier):
     return faits, total, pourcentage
 
 
-# ============================================================
-# GEMINI / STREAMLIT SECRETS
-# ============================================================
-
 def obtenir_cle_gemini():
-
-    """
-    Récupère la clé Gemini depuis Streamlit Secrets.
-
-    Dans Streamlit Cloud :
-    
-    Settings → Secrets
-
-    puis :
-
-    GEMINI_API_KEY = "ta_clé"
-    """
 
     try:
 
@@ -373,10 +491,6 @@ def obtenir_client_gemini():
     except Exception:
         return None
 
-
-# ============================================================
-# CHECKLIST
-# ============================================================
 
 def checklist_demarche(situation, logement):
 
@@ -445,10 +559,6 @@ def checklist_demarche(situation, logement):
 
     return resultat
 
-
-# ============================================================
-# ANALYSE DOCUMENT
-# ============================================================
 
 def analyser_document(
     fichier,
@@ -535,10 +645,6 @@ Règles importantes :
         return "ERREUR_ANALYSE\n" + str(erreur)
 
 
-# ============================================================
-# ASSISTANT GEMINI
-# ============================================================
-
 def assistant_gemini(question):
 
     client = obtenir_client_gemini()
@@ -578,10 +684,6 @@ Règles :
 
         return "Une erreur est survenue : " + str(erreur)
 
-
-# ============================================================
-# PROFIL INITIAL
-# ============================================================
 
 if st.session_state.profil is None:
 
@@ -695,10 +797,6 @@ if st.session_state.profil is None:
     st.stop()
 
 
-# ============================================================
-# EN-TÊTE
-# ============================================================
-
 profil = st.session_state.profil
 
 
@@ -747,10 +845,6 @@ st.session_state.page = page
 
 st.divider()
 
-
-# ============================================================
-# AFFICHER UN DOSSIER
-# ============================================================
 
 def afficher_dossier(dossier):
 
@@ -1012,10 +1106,6 @@ def afficher_dossier(dossier):
                 )
 
 
-# ============================================================
-# ACCUEIL
-# ============================================================
-
 if page == "🏠 Accueil":
 
     st.markdown(
@@ -1175,10 +1265,6 @@ if page == "🏠 Accueil":
                 f"{pourcentage}%"
             )
 
-
-# ============================================================
-# NOUVELLE DÉMARCHE
-# ============================================================
 
 elif page == "➕ Nouvelle démarche":
 
@@ -1411,10 +1497,6 @@ Règles :
                     )
 
 
-# ============================================================
-# MES DOSSIERS
-# ============================================================
-
 elif page == "📋 Mes dossiers":
 
     st.markdown(
@@ -1524,10 +1606,6 @@ elif page == "📋 Mes dossiers":
                     st.rerun()
 
 
-# ============================================================
-# ASSISTANT
-# ============================================================
-
 elif page == "🤖 Assistant":
 
     st.markdown(
@@ -1616,10 +1694,6 @@ elif page == "🤖 Assistant":
         "de l'administration concernée."
     )
 
-
-# ============================================================
-# PROFIL
-# ============================================================
 
 elif page == "👤 Profil":
 
@@ -1793,10 +1867,6 @@ elif page == "👤 Profil":
 
             st.rerun()
 
-
-# ============================================================
-# PIED DE PAGE
-# ============================================================
 
 st.divider()
 
