@@ -11,6 +11,7 @@ try:
 except ImportError:
     GEMINI_OK = False
 
+
 st.set_page_config(
     page_title="Checklist à toute épreuve",
     page_icon="✅",
@@ -18,10 +19,13 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
+
 DATA_FILE = "checklist_toute_epreuve_v27.json"
+
 
 st.markdown("""
 <style>
+
 html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"],
 [data-testid="stToolbar"], .stApp {
     color-scheme: light !important;
@@ -87,7 +91,9 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"],
     color: #000 !important;
 }
 
-.glass h2, .glass h3, .glass p {
+.glass h2,
+.glass h3,
+.glass p {
     color: #000 !important;
 }
 
@@ -100,21 +106,58 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"],
     margin-bottom: 20px;
 }
 
-.welcome h2 { color: white !important; margin-bottom: 8px; }
-.welcome p { color: #eef2ff !important; margin-bottom: 0; }
-
-.feature {
-    padding: 20px;
-    border-radius: 22px;
-    background: rgba(255,255,255,.94) !important;
-    border: 1px solid #e2e8f0;
-    min-height: 140px;
-    margin-bottom: 15px;
-    color: #000 !important;
+.welcome h2 {
+    color: white !important;
+    margin-bottom: 8px;
 }
 
-.feature h3, .feature p { color: #000 !important; }
-.feature-icon { font-size: 32px; }
+.welcome p {
+    color: #eef2ff !important;
+    margin-bottom: 0;
+}
+
+.feature-button {
+    width: 100%;
+}
+
+div.st-key-carte_preparer button,
+div.st-key-carte_verifier button,
+div.st-key-carte_organiser button,
+div.st-key-carte_tout_preparer button {
+    width: 100% !important;
+    min-height: 165px !important;
+    height: 165px !important;
+    border-radius: 22px !important;
+    background: rgba(255,255,255,.96) !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 12px 30px rgba(15,23,42,.08) !important;
+    color: #000000 !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    white-space: pre-wrap !important;
+    text-align: center !important;
+    transition: all .18s ease !important;
+    margin-bottom: 18px !important;
+}
+
+div.st-key-carte_preparer button:hover,
+div.st-key-carte_verifier button:hover,
+div.st-key-carte_organiser button:hover,
+div.st-key-carte_tout_preparer button:hover {
+    border: 2px solid #2563eb !important;
+    box-shadow: 0 18px 40px rgba(37,99,235,.18) !important;
+    transform: translateY(-3px) !important;
+    color: #000000 !important;
+}
+
+div.st-key-carte_preparer button p,
+div.st-key-carte_verifier button p,
+div.st-key-carte_organiser button p,
+div.st-key-carte_tout_preparer button p {
+    color: #000000 !important;
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+}
 
 .folder {
     padding: 22px;
@@ -126,7 +169,10 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"],
     color: #000 !important;
 }
 
-.folder h2, .folder p { color: #000 !important; }
+.folder h2,
+.folder p {
+    color: #000 !important;
+}
 
 .progress-card {
     padding: 18px;
@@ -137,7 +183,10 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"],
     color: #000 !important;
 }
 
-.progress-card h3, .progress-card p { color: #000 !important; }
+.progress-card h3,
+.progress-card p {
+    color: #000 !important;
+}
 
 .done-card {
     padding: 18px;
@@ -157,7 +206,9 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"],
     color: #000 !important;
 }
 
-.premium-card h3, .premium-card p, .premium-card b {
+.premium-card h3,
+.premium-card p,
+.premium-card b {
     color: #000 !important;
 }
 
@@ -168,7 +219,9 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"],
     padding: 25px 5px;
 }
 
-.footer b { color: #000 !important; }
+.footer b {
+    color: #000 !important;
+}
 
 .stButton > button {
     border-radius: 15px !important;
@@ -184,18 +237,30 @@ html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"],
     border-color: #2563eb !important;
 }
 
-input, textarea, select, [data-baseweb="select"] > div {
+input,
+textarea,
+select,
+[data-baseweb="select"] > div {
     color: #000000 !important;
     background-color: #ffffff !important;
 }
 
-label, [data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] p,
-.stMarkdown, .stMarkdown p, .stMarkdown h1, .stMarkdown h2,
-.stMarkdown h3, .stMarkdown h4, .stCaption, .stCaption p {
+label,
+[data-testid="stWidgetLabel"],
+[data-testid="stWidgetLabel"] p,
+.stMarkdown,
+.stMarkdown p,
+.stMarkdown h1,
+.stMarkdown h2,
+.stMarkdown h3,
+.stMarkdown h4,
+.stCaption,
+.stCaption p {
     color: #000000 !important;
 }
 
-[data-testid="stMetricLabel"], [data-testid="stMetricValue"] {
+[data-testid="stMetricLabel"],
+[data-testid="stMetricValue"] {
     color: #000000 !important;
 }
 
@@ -219,75 +284,108 @@ label, [data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] p,
     color: #000000 !important;
 }
 
-/* Navigation V27 : boutons indépendants, un seul clic */
-.nav-row {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 8px;
-}
-
 @media (max-width: 600px) {
-    .app-title { font-size: 34px; }
-    .app-subtitle { font-size: 15px; }
+
+    .app-title {
+        font-size: 34px;
+    }
+
+    .app-subtitle {
+        font-size: 15px;
+    }
+
     .main .block-container {
         padding-left: 1rem;
         padding-right: 1rem;
     }
+
     .logo {
         width: 76px;
         height: 76px;
         font-size: 38px;
     }
+
     .stButton > button {
         min-height: 46px !important;
     }
+
+    div.st-key-carte_preparer button,
+    div.st-key-carte_verifier button,
+    div.st-key-carte_organiser button,
+    div.st-key-carte_tout_preparer button {
+        min-height: 145px !important;
+        height: 145px !important;
+    }
 }
+
 </style>
 """, unsafe_allow_html=True)
 
 
 def donnees_vides():
-    return {"version": "27", "profil": None, "dossiers": []}
+    return {
+        "version": "27",
+        "profil": None,
+        "dossiers": []
+    }
 
 
 def charger_donnees():
+
     if not os.path.exists(DATA_FILE):
         return donnees_vides()
+
     try:
         with open(DATA_FILE, "r", encoding="utf-8") as fichier:
             data = json.load(fichier)
+
         if not isinstance(data, dict):
             return donnees_vides()
+
         data.setdefault("profil", None)
         data.setdefault("dossiers", [])
+
         return data
+
     except Exception:
         return donnees_vides()
 
 
 def sauvegarder():
+
     data = {
         "version": "27",
         "profil": st.session_state.profil,
         "dossiers": st.session_state.dossiers
     }
+
     try:
         with open(DATA_FILE, "w", encoding="utf-8") as fichier:
-            json.dump(data, fichier, indent=4, ensure_ascii=False)
+            json.dump(
+                data,
+                fichier,
+                indent=4,
+                ensure_ascii=False
+            )
+
         return True
+
     except Exception:
         return False
 
 
 data = charger_donnees()
 
+
 if "profil" not in st.session_state:
     st.session_state.profil = data["profil"]
+
 if "dossiers" not in st.session_state:
     st.session_state.dossiers = data["dossiers"]
+
 if "page" not in st.session_state:
     st.session_state.page = "🏠 Accueil"
+
 if "dossier_ouvert" not in st.session_state:
     st.session_state.dossier_ouvert = None
 
@@ -301,6 +399,7 @@ def maintenant():
 
 
 def creer_dossier(nom, documents):
+
     return {
         "id": nouvel_id(),
         "nom": nom,
@@ -312,23 +411,39 @@ def creer_dossier(nom, documents):
 
 
 def calculer_progression(dossier):
+
     documents = dossier.get("documents", [])
     coches = dossier.get("documents_coches", [])
+
     total = len(documents)
+
     if total == 0:
         return 0, 0, 0
-    faits = sum(1 for document in documents if document in coches)
-    pourcentage = round(faits / total * 100)
+
+    faits = sum(
+        1
+        for document in documents
+        if document in coches
+    )
+
+    pourcentage = round(
+        faits / total * 100
+    )
+
     return faits, total, pourcentage
 
 
 def obtenir_cle_gemini():
+
     try:
         cle = st.secrets.get("GEMINI_API_KEY")
+
         if cle:
             return str(cle).strip()
+
     except Exception:
         pass
+
     return None
 
 
@@ -337,47 +452,67 @@ def gemini_configure():
 
 
 def obtenir_client_gemini():
+
     if not GEMINI_OK:
         return None
+
     cle = obtenir_cle_gemini()
+
     if not cle:
         return None
+
     try:
         return genai.Client(api_key=cle)
+
     except Exception:
         return None
 
 
 def checklist_demarche(situation, logement):
+
     documents = [
         "Pièce d'identité",
         "Justificatif de domicile récent"
     ]
 
     if situation == "Carte d'identité":
+
         documents += [
             "Photo d'identité conforme",
             "Ancienne carte d'identité si disponible"
         ]
+
     elif situation == "Passeport":
+
         documents += [
             "Photo d'identité conforme",
             "Ancien passeport si disponible"
         ]
+
     elif situation == "Permis de conduire":
+
         documents += [
             "Photo-signature numérique",
             "Justificatif d'identité",
             "Avis médical si nécessaire"
         ]
+
     elif situation == "Changement d'adresse":
-        documents += ["Ancienne adresse", "Nouvelle adresse"]
+
+        documents += [
+            "Ancienne adresse",
+            "Nouvelle adresse"
+        ]
+
     elif situation == "Inscription scolaire":
+
         documents += [
             "Livret de famille ou document équivalent",
             "Documents concernant l'enfant"
         ]
+
     elif situation == "Création d'entreprise":
+
         documents += [
             "Adresse de l'entreprise",
             "Informations sur l'activité",
@@ -385,24 +520,33 @@ def checklist_demarche(situation, logement):
         ]
 
     if logement == "Je suis hébergé chez quelqu'un":
+
         documents += [
             "Attestation d'hébergement",
             "Justificatif de domicile de l'hébergeant"
         ]
 
     resultat = []
+
     for document in documents:
+
         if document not in resultat:
             resultat.append(document)
+
     return resultat
 
 
 def analyser_document(fichier, nom_demarche, checklist):
+
     client = obtenir_client_gemini()
+
     if client is None:
         return None
 
-    checklist_text = "\n".join("- " + document for document in checklist)
+    checklist_text = "\n".join(
+        "- " + document
+        for document in checklist
+    )
 
     prompt = f"""
 Tu es l'assistant documentaire de l'application
@@ -453,6 +597,7 @@ par l'utilisateur ou l'administration.
 """
 
     try:
+
         response = client.models.generate_content(
             model="gemini-3.6-flash",
             contents=[
@@ -463,13 +608,18 @@ par l'utilisateur ou l'administration.
                 prompt
             ]
         )
+
         return response.text
+
     except Exception as erreur:
+
         return "ERREUR_ANALYSE\n" + str(erreur)
 
 
 def assistant_gemini(question):
+
     client = obtenir_client_gemini()
+
     if client is None:
         return None
 
@@ -492,23 +642,35 @@ Règles :
 """
 
     try:
+
         response = client.models.generate_content(
             model="gemini-3.6-flash",
             contents=prompt
         )
+
         return response.text
+
     except Exception as erreur:
+
         return "Une erreur est survenue : " + str(erreur)
 
 
 if st.session_state.profil is None:
-    st.markdown('<div class="logo">✅</div>', unsafe_allow_html=True)
+
+    st.markdown(
+        '<div class="logo">✅</div>',
+        unsafe_allow_html=True
+    )
+
     st.markdown(
         '<div class="app-title">Checklist à toute épreuve</div>',
         unsafe_allow_html=True
     )
+
     st.markdown(
-        '<div class="app-subtitle">Votre assistant pour préparer vos démarches administratives.</div>',
+        '<div class="app-subtitle">'
+        'Votre assistant pour préparer vos démarches administratives.'
+        '</div>',
         unsafe_allow_html=True
     )
 
@@ -521,21 +683,58 @@ if st.session_state.profil is None:
     """, unsafe_allow_html=True)
 
     prenom = st.text_input("Prénom")
-    nom = st.text_input("Nom", placeholder="Facultatif")
-    email = st.text_input("Email")
-    age = st.number_input("Âge", min_value=1, max_value=120, value=18)
-    nationalite = st.selectbox("Nationalité", ["Française", "Européenne", "Autre"])
-    logement = st.selectbox(
-        "Situation de logement",
-        ["Je suis propriétaire", "Je suis locataire", "Je suis hébergé chez quelqu'un"]
+
+    nom = st.text_input(
+        "Nom",
+        placeholder="Facultatif"
     )
 
-    if st.button("🚀 Créer mon profil", use_container_width=True):
+    email = st.text_input("Email")
+
+    age = st.number_input(
+        "Âge",
+        min_value=1,
+        max_value=120,
+        value=18
+    )
+
+    nationalite = st.selectbox(
+        "Nationalité",
+        [
+            "Française",
+            "Européenne",
+            "Autre"
+        ]
+    )
+
+    logement = st.selectbox(
+        "Situation de logement",
+        [
+            "Je suis propriétaire",
+            "Je suis locataire",
+            "Je suis hébergé chez quelqu'un"
+        ]
+    )
+
+    if st.button(
+        "🚀 Créer mon profil",
+        use_container_width=True
+    ):
+
         if not prenom.strip():
-            st.warning("⚠️ Indiquez votre prénom.")
+
+            st.warning(
+                "⚠️ Indiquez votre prénom."
+            )
+
         elif not email.strip():
-            st.warning("⚠️ Indiquez votre adresse email.")
+
+            st.warning(
+                "⚠️ Indiquez votre adresse email."
+            )
+
         else:
+
             st.session_state.profil = {
                 "prenom": prenom.strip(),
                 "nom": nom.strip(),
@@ -544,19 +743,31 @@ if st.session_state.profil is None:
                 "nationalite": nationalite,
                 "logement": logement
             }
+
             sauvegarder()
-            st.success("🎉 Profil créé !")
+
+            st.success(
+                "🎉 Profil créé !"
+            )
+
             st.rerun()
+
     st.stop()
 
 
 profil = st.session_state.profil
 
-st.markdown('<div class="logo">✅</div>', unsafe_allow_html=True)
+
+st.markdown(
+    '<div class="logo">✅</div>',
+    unsafe_allow_html=True
+)
+
 st.markdown(
     '<div class="app-title">Checklist à toute épreuve</div>',
     unsafe_allow_html=True
 )
+
 st.markdown(
     '<div class="app-subtitle">Simple • Clair • Organisé</div>',
     unsafe_allow_html=True
@@ -571,31 +782,40 @@ pages = [
     "👤 Profil"
 ]
 
+
 if st.session_state.page not in pages:
     st.session_state.page = pages[0]
 
 
-# Navigation V27 : chaque bouton change directement la page.
 nav_cols = st.columns(len(pages))
 
+
 for i, nom_page in enumerate(pages):
+
     with nav_cols[i]:
+
         if st.button(
             nom_page,
             key="nav_v27_" + str(i),
             use_container_width=True
         ):
+
             if st.session_state.page != nom_page:
+
                 st.session_state.page = nom_page
                 st.session_state.dossier_ouvert = None
+
                 st.rerun()
 
+
 page = st.session_state.page
+
 
 st.divider()
 
 
 def afficher_dossier(dossier):
+
     st.markdown(
         f"""
         <div class="folder">
@@ -606,7 +826,9 @@ def afficher_dossier(dossier):
         unsafe_allow_html=True
     )
 
-    faits, total, pourcentage = calculer_progression(dossier)
+    faits, total, pourcentage = calculer_progression(
+        dossier
+    )
 
     st.markdown(
         f"""
@@ -618,10 +840,16 @@ def afficher_dossier(dossier):
         unsafe_allow_html=True
     )
 
-    st.progress(pourcentage / 100)
-    st.write(f"**{pourcentage}% terminé**")
+    st.progress(
+        pourcentage / 100
+    )
+
+    st.write(
+        f"**{pourcentage}% terminé**"
+    )
 
     if pourcentage == 100:
+
         st.markdown("""
         <div class="done-card">
         🎉 <b>Dossier prêt !</b><br>
@@ -629,17 +857,36 @@ def afficher_dossier(dossier):
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("### ✅ Ma checklist")
-    st.caption("Coche les documents que tu possèdes déjà.")
+    st.markdown(
+        "### ✅ Ma checklist"
+    )
 
-    with st.form(key="checklist_form_" + dossier["id"]):
+    st.caption(
+        "Coche les documents que tu possèdes déjà."
+    )
+
+    with st.form(
+        key="checklist_form_" + dossier["id"]
+    ):
+
         nouvelles_cases = {}
 
-        for i, document in enumerate(dossier.get("documents", [])):
+        for i, document in enumerate(
+            dossier.get("documents", [])
+        ):
+
             nouvelles_cases[document] = st.checkbox(
                 document,
-                value=document in dossier.get("documents_coches", []),
-                key="document_" + dossier["id"] + "_" + str(i)
+                value=document in dossier.get(
+                    "documents_coches",
+                    []
+                ),
+                key=(
+                    "document_"
+                    + dossier["id"]
+                    + "_"
+                    + str(i)
+                )
             )
 
         sauvegarder_checklist = st.form_submit_button(
@@ -648,16 +895,28 @@ def afficher_dossier(dossier):
         )
 
     if sauvegarder_checklist:
+
         dossier["documents_coches"] = [
-            document for document, coche in nouvelles_cases.items() if coche
+            document
+            for document, coche in nouvelles_cases.items()
+            if coche
         ]
+
         sauvegarder()
-        st.success("✅ Checklist enregistrée !")
+
+        st.success(
+            "✅ Checklist enregistrée !"
+        )
+
         st.session_state.dossier_ouvert = dossier["id"]
+
         st.rerun()
 
     st.divider()
-    st.markdown("### 📄 Vérifier un document")
+
+    st.markdown(
+        "### 📄 Vérifier un document"
+    )
 
     st.markdown("""
     <div class="premium-card">
@@ -671,61 +930,131 @@ def afficher_dossier(dossier):
 
     fichier = st.file_uploader(
         "Photo ou scan du document",
-        type=["png", "jpg", "jpeg"],
+        type=[
+            "png",
+            "jpg",
+            "jpeg"
+        ],
         key="upload_" + dossier["id"]
     )
 
     if fichier:
-        st.success(f"📄 Document reçu : {fichier.name}")
-        st.image(fichier, use_container_width=True)
+
+        st.success(
+            f"📄 Document reçu : {fichier.name}"
+        )
+
+        st.image(
+            fichier,
+            use_container_width=True
+        )
 
         if st.button(
             "🤖 Analyser le document",
             key="analyse_" + dossier["id"],
             use_container_width=True
         ):
+
             if not GEMINI_OK:
-                st.error("❌ Le module Gemini n'est pas installé.")
-                st.code("py -m pip install google-genai")
+
+                st.error(
+                    "❌ Le module Gemini n'est pas installé."
+                )
+
+                st.code(
+                    "py -m pip install google-genai"
+                )
+
             elif not gemini_configure():
-                st.error("❌ GEMINI_API_KEY n'est pas configurée dans Streamlit Secrets.")
-                st.info("Allez dans Settings → Secrets et ajoutez GEMINI_API_KEY.")
+
+                st.error(
+                    "❌ GEMINI_API_KEY n'est pas configurée dans Streamlit Secrets."
+                )
+
+                st.info(
+                    "Allez dans Settings → Secrets et ajoutez GEMINI_API_KEY."
+                )
+
             else:
-                with st.spinner("🤖 Analyse du document..."):
+
+                with st.spinner(
+                    "🤖 Analyse du document..."
+                ):
+
                     resultat = analyser_document(
                         fichier,
                         dossier["nom"],
-                        dossier.get("documents", [])
+                        dossier.get(
+                            "documents",
+                            []
+                        )
                     )
 
                 if resultat:
-                    st.success("✅ Analyse terminée !")
-                    st.markdown("### 🤖 Résultat")
-                    st.markdown(resultat)
 
-                    dossier.setdefault("analyses", [])
+                    st.success(
+                        "✅ Analyse terminée !"
+                    )
+
+                    st.markdown(
+                        "### 🤖 Résultat"
+                    )
+
+                    st.markdown(
+                        resultat
+                    )
+
+                    dossier.setdefault(
+                        "analyses",
+                        []
+                    )
+
                     dossier["analyses"].append({
                         "fichier": fichier.name,
                         "date": maintenant(),
                         "resultat": resultat
                     })
+
                     sauvegarder()
 
-    analyses = dossier.get("analyses", [])
+    analyses = dossier.get(
+        "analyses",
+        []
+    )
 
     if analyses:
+
         st.divider()
-        st.markdown("### 🕘 Analyses précédentes")
+
+        st.markdown(
+            "### 🕘 Analyses précédentes"
+        )
 
         for analyse in reversed(analyses):
+
             with st.expander(
-                "📄 " + analyse.get("fichier", "Document")
-                + " — " + analyse.get("date", "")
+                "📄 "
+                + analyse.get(
+                    "fichier",
+                    "Document"
+                )
+                + " — "
+                + analyse.get(
+                    "date",
+                    ""
+                )
             ):
-                st.markdown(analyse.get("resultat", ""))
+
+                st.markdown(
+                    analyse.get(
+                        "resultat",
+                        ""
+                    )
+                )
 
 
 if page == "🏠 Accueil":
+
     st.markdown(
         f"""
         <div class="welcome">
@@ -737,81 +1066,155 @@ if page == "🏠 Accueil":
     )
 
     dossiers = st.session_state.dossiers
+
     total_dossiers = len(dossiers)
+
     dossiers_termines = 0
+
     documents_faits = 0
+
     documents_total = 0
 
+
     for dossier in dossiers:
-        faits, total, pourcentage = calculer_progression(dossier)
+
+        faits, total, pourcentage = calculer_progression(
+            dossier
+        )
+
         documents_faits += faits
         documents_total += total
+
         if total > 0 and pourcentage == 100:
             dossiers_termines += 1
 
+
     col1, col2, col3 = st.columns(3)
 
+
     with col1:
-        st.metric("📋 Dossiers", total_dossiers)
+        st.metric(
+            "📋 Dossiers",
+            total_dossiers
+        )
+
+
     with col2:
-        st.metric("🎉 Terminés", dossiers_termines)
+        st.metric(
+            "🎉 Terminés",
+            dossiers_termines
+        )
+
+
     with col3:
-        st.metric("✅ Documents", f"{documents_faits}/{documents_total}")
+        st.metric(
+            "✅ Documents",
+            f"{documents_faits}/{documents_total}"
+        )
 
-    st.markdown("## ✨ Que voulez-vous faire ?")
 
-    col1, col2 = st.columns(2)
+    st.markdown(
+        "## ✨ Que voulez-vous faire ?"
+    )
 
-    with col1:
-        st.markdown("""
-        <div class="feature">
-        <div class="feature-icon">📋</div>
-        <h3>Préparer</h3>
-        <p>Créez une checklist adaptée à votre démarche.</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-    with col2:
-        st.markdown("""
-        <div class="feature">
-        <div class="feature-icon">🤖</div>
-        <h3>Vérifier</h3>
-        <p>Faites analyser vos documents avec l'assistant IA.</p>
-        </div>
-        """, unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
 
+
     with col1:
-        st.markdown("""
-        <div class="feature">
-        <div class="feature-icon">📂</div>
-        <h3>Organiser</h3>
-        <p>Retrouvez toutes vos démarches dans vos dossiers.</p>
-        </div>
-        """, unsafe_allow_html=True)
+
+        if st.button(
+            "📋\n\nPRÉPARER\n\nCréez une checklist adaptée à votre démarche.",
+            key="carte_preparer",
+            use_container_width=True
+        ):
+
+            st.session_state.page = "➕ Nouvelle démarche"
+
+            st.session_state.dossier_ouvert = None
+
+            st.rerun()
+
 
     with col2:
-        st.markdown("""
-        <div class="feature">
-        <div class="feature-icon">🧾</div>
-        <h3>Tout préparer</h3>
-        <p>Suivez votre progression jusqu'à avoir terminé votre checklist.</p>
-        </div>
-        """, unsafe_allow_html=True)
+
+        if st.button(
+            "🤖\n\nVÉRIFIER\n\nFaites analyser vos documents avec l'assistant IA.",
+            key="carte_verifier",
+            use_container_width=True
+        ):
+
+            st.session_state.page = "🤖 Assistant"
+
+            st.session_state.dossier_ouvert = None
+
+            st.rerun()
+
+
+    col1, col2 = st.columns(2)
+
+
+    with col1:
+
+        if st.button(
+            "📂\n\nORGANISER\n\nRetrouvez toutes vos démarches dans vos dossiers.",
+            key="carte_organiser",
+            use_container_width=True
+        ):
+
+            st.session_state.page = "📋 Mes dossiers"
+
+            st.session_state.dossier_ouvert = None
+
+            st.rerun()
+
+
+    with col2:
+
+        if st.button(
+            "🧾\n\nTOUT PRÉPARER\n\nSuivez votre progression jusqu'à avoir terminé votre checklist.",
+            key="carte_tout_preparer",
+            use_container_width=True
+        ):
+
+            st.session_state.page = "📋 Mes dossiers"
+
+            st.session_state.dossier_ouvert = None
+
+            st.rerun()
+
 
     if dossiers:
-        st.markdown("## 📊 Mes derniers dossiers")
+
+        st.markdown(
+            "## 📊 Mes derniers dossiers"
+        )
 
         for dossier in dossiers[-3:]:
-            faits, total, pourcentage = calculer_progression(dossier)
-            st.write(f"**📋 {dossier['nom']}**")
-            st.progress(pourcentage / 100)
-            st.caption(f"{faits}/{total} documents • {pourcentage}%")
+
+            faits, total, pourcentage = calculer_progression(
+                dossier
+            )
+
+            st.write(
+                f"**📋 {dossier['nom']}**"
+            )
+
+            st.progress(
+                pourcentage / 100
+            )
+
+            st.caption(
+                f"{faits}/{total} documents • {pourcentage}%"
+            )
 
 
 elif page == "➕ Nouvelle démarche":
-    st.markdown("## ➕ Nouvelle démarche")
+
+    st.markdown(
+        "## ➕ Nouvelle démarche"
+    )
+
 
     situation = st.selectbox(
         "Quelle démarche souhaitez-vous préparer ?",
@@ -826,8 +1229,14 @@ elif page == "➕ Nouvelle démarche":
         ]
     )
 
+
     if situation != "Autre":
-        documents = checklist_demarche(situation, profil["logement"])
+
+        documents = checklist_demarche(
+            situation,
+            profil["logement"]
+        )
+
 
         st.markdown(
             f"""
@@ -839,20 +1248,46 @@ elif page == "➕ Nouvelle démarche":
             unsafe_allow_html=True
         )
 
-        with st.expander("👀 Voir les documents"):
-            for document in documents:
-                st.write("☐ " + document)
 
-        if st.button("🚀 Créer mon dossier", use_container_width=True):
-            dossier = creer_dossier(situation, documents)
-            st.session_state.dossiers.append(dossier)
+        with st.expander(
+            "👀 Voir les documents"
+        ):
+
+            for document in documents:
+                st.write(
+                    "☐ " + document
+                )
+
+
+        if st.button(
+            "🚀 Créer mon dossier",
+            use_container_width=True
+        ):
+
+            dossier = creer_dossier(
+                situation,
+                documents
+            )
+
+            st.session_state.dossiers.append(
+                dossier
+            )
+
             st.session_state.dossier_ouvert = dossier["id"]
+
             sauvegarder()
-            st.success("🎉 Dossier créé avec succès !")
+
+            st.success(
+                "🎉 Dossier créé avec succès !"
+            )
+
             st.session_state.page = "📋 Mes dossiers"
+
             st.rerun()
 
+
     else:
+
         st.markdown("""
         <div class="premium-card">
         <h3>⭐ Démarche personnalisée</h3>
@@ -860,26 +1295,49 @@ elif page == "➕ Nouvelle démarche":
         </div>
         """, unsafe_allow_html=True)
 
+
         question = st.text_area(
             "Quelle démarche voulez-vous faire ?",
             placeholder="Exemple : je veux demander une aide au logement",
             height=130
         )
 
+
         if st.button(
             "🤖 Créer ma checklist personnalisée",
             use_container_width=True
         ):
+
             if not question.strip():
-                st.warning("⚠️ Décrivez votre démarche.")
+
+                st.warning(
+                    "⚠️ Décrivez votre démarche."
+                )
+
             elif not GEMINI_OK:
-                st.error("❌ Gemini n'est pas installé.")
-                st.code("py -m pip install google-genai")
+
+                st.error(
+                    "❌ Gemini n'est pas installé."
+                )
+
+                st.code(
+                    "py -m pip install google-genai"
+                )
+
             elif not gemini_configure():
-                st.error("❌ GEMINI_API_KEY n'est pas configurée dans Streamlit Secrets.")
-                st.info("Allez dans Settings → Secrets et ajoutez GEMINI_API_KEY.")
+
+                st.error(
+                    "❌ GEMINI_API_KEY n'est pas configurée dans Streamlit Secrets."
+                )
+
+                st.info(
+                    "Allez dans Settings → Secrets et ajoutez GEMINI_API_KEY."
+                )
+
             else:
+
                 client = obtenir_client_gemini()
+
 
                 prompt = f"""
 Tu es l'assistant administratif de
@@ -906,45 +1364,91 @@ Règles :
 - Les documents peuvent dépendre de la situation.
 """
 
+
                 try:
-                    with st.spinner("🤖 Création de votre checklist..."):
+
+                    with st.spinner(
+                        "🤖 Création de votre checklist..."
+                    ):
+
                         response = client.models.generate_content(
                             model="gemini-3.6-flash",
                             contents=prompt
                         )
 
+
                     texte = response.text
+
                     documents = []
 
+
                     for ligne in texte.splitlines():
+
                         ligne = ligne.strip()
+
                         if ligne.startswith("- "):
+
                             document = ligne[2:].strip()
+
                             if document:
-                                documents.append(document)
+                                documents.append(
+                                    document
+                                )
+
 
                     if not documents:
-                        st.warning("⚠️ Impossible de créer une checklist.")
+
+                        st.warning(
+                            "⚠️ Impossible de créer une checklist."
+                        )
+
                     else:
-                        dossier = creer_dossier(question, documents)
-                        st.session_state.dossiers.append(dossier)
+
+                        dossier = creer_dossier(
+                            question,
+                            documents
+                        )
+
+                        st.session_state.dossiers.append(
+                            dossier
+                        )
+
                         st.session_state.dossier_ouvert = dossier["id"]
+
                         sauvegarder()
-                        st.success("🎉 Checklist personnalisée créée !")
+
+                        st.success(
+                            "🎉 Checklist personnalisée créée !"
+                        )
+
                         st.session_state.page = "📋 Mes dossiers"
+
                         st.rerun()
 
+
                 except Exception as erreur:
-                    st.error("❌ Erreur pendant la création.")
-                    st.code(str(erreur))
+
+                    st.error(
+                        "❌ Erreur pendant la création."
+                    )
+
+                    st.code(
+                        str(erreur)
+                    )
 
 
 elif page == "📋 Mes dossiers":
-    st.markdown("## 📋 Mes dossiers")
+
+    st.markdown(
+        "## 📋 Mes dossiers"
+    )
+
 
     dossiers = st.session_state.dossiers
 
+
     if not dossiers:
+
         st.markdown("""
         <div class="glass">
         <h2>📭 Aucun dossier</h2>
@@ -952,57 +1456,108 @@ elif page == "📋 Mes dossiers":
         </div>
         """, unsafe_allow_html=True)
 
-        if st.button("➕ Créer une démarche", use_container_width=True):
+
+        if st.button(
+            "➕ Créer une démarche",
+            use_container_width=True
+        ):
+
             st.session_state.page = "➕ Nouvelle démarche"
+
             st.rerun()
 
+
     else:
+
         recherche = st.text_input(
             "🔎 Rechercher un dossier",
             placeholder="Exemple : passeport"
         )
 
+
         if recherche.strip():
+
             dossiers_affiches = [
-                dossier for dossier in dossiers
-                if recherche.lower() in dossier.get("nom", "").lower()
+                dossier
+                for dossier in dossiers
+                if recherche.lower()
+                in dossier.get(
+                    "nom",
+                    ""
+                ).lower()
             ]
+
         else:
+
             dossiers_affiches = dossiers
 
+
         if not dossiers_affiches:
-            st.info("🔎 Aucun dossier trouvé.")
+
+            st.info(
+                "🔎 Aucun dossier trouvé."
+            )
+
 
         for dossier in dossiers_affiches:
-            faits, total, pourcentage = calculer_progression(dossier)
+
+            faits, total, pourcentage = calculer_progression(
+                dossier
+            )
+
 
             with st.expander(
                 f"📋 {dossier['nom']} — {pourcentage}%",
-                expanded=dossier["id"] == st.session_state.dossier_ouvert
+                expanded=(
+                    dossier["id"]
+                    == st.session_state.dossier_ouvert
+                )
             ):
-                afficher_dossier(dossier)
+
+                afficher_dossier(
+                    dossier
+                )
+
                 st.divider()
+
 
                 if st.button(
                     "🗑️ Supprimer ce dossier",
                     key="supprimer_" + dossier["id"],
                     use_container_width=True
                 ):
+
                     st.session_state.dossiers = [
-                        d for d in st.session_state.dossiers
+                        d
+                        for d in st.session_state.dossiers
                         if d.get("id") != dossier["id"]
                     ]
 
-                    if st.session_state.dossier_ouvert == dossier["id"]:
+
+                    if (
+                        st.session_state.dossier_ouvert
+                        == dossier["id"]
+                    ):
+
                         st.session_state.dossier_ouvert = None
 
+
                     sauvegarder()
-                    st.success("🗑️ Dossier supprimé.")
+
+
+                    st.success(
+                        "🗑️ Dossier supprimé."
+                    )
+
                     st.rerun()
 
 
 elif page == "🤖 Assistant":
-    st.markdown("## 🤖 Assistant Checklist à toute épreuve")
+
+    st.markdown(
+        "## 🤖 Assistant Checklist à toute épreuve"
+    )
+
 
     st.markdown("""
     <div class="glass">
@@ -1011,30 +1566,70 @@ elif page == "🤖 Assistant":
     </div>
     """, unsafe_allow_html=True)
 
+
     question = st.text_area(
         "Votre question",
         placeholder="Exemple : quels documents prévoir pour un passeport ?",
         height=150
     )
 
-    if st.button("🤖 Poser ma question", use_container_width=True):
+
+    if st.button(
+        "🤖 Poser ma question",
+        use_container_width=True
+    ):
+
         if not question.strip():
-            st.warning("⚠️ Écrivez une question.")
+
+            st.warning(
+                "⚠️ Écrivez une question."
+            )
+
         elif not GEMINI_OK:
-            st.error("❌ Gemini n'est pas installé.")
-            st.code("py -m pip install google-genai")
+
+            st.error(
+                "❌ Gemini n'est pas installé."
+            )
+
+            st.code(
+                "py -m pip install google-genai"
+            )
+
         elif not gemini_configure():
-            st.error("❌ GEMINI_API_KEY n'est pas configurée dans Streamlit Secrets.")
-            st.info("Allez dans Settings → Secrets et ajoutez GEMINI_API_KEY.")
+
+            st.error(
+                "❌ GEMINI_API_KEY n'est pas configurée dans Streamlit Secrets."
+            )
+
+            st.info(
+                "Allez dans Settings → Secrets et ajoutez GEMINI_API_KEY."
+            )
+
         else:
-            with st.spinner("🤖 Réflexion..."):
-                resultat = assistant_gemini(question)
+
+            with st.spinner(
+                "🤖 Réflexion..."
+            ):
+
+                resultat = assistant_gemini(
+                    question
+                )
+
 
             if resultat:
-                st.markdown("### 🤖 Réponse")
-                st.markdown(resultat)
+
+                st.markdown(
+                    "### 🤖 Réponse"
+                )
+
+                st.markdown(
+                    resultat
+                )
+
 
     st.divider()
+
+
     st.caption(
         "⚠️ Les réponses de l'assistant sont indicatives. "
         "Vérifiez toujours les informations auprès de l'administration concernée."
@@ -1042,7 +1637,11 @@ elif page == "🤖 Assistant":
 
 
 elif page == "👤 Profil":
-    st.markdown("## 👤 Mon profil")
+
+    st.markdown(
+        "## 👤 Mon profil"
+    )
+
 
     st.markdown("""
     <div class="glass">
@@ -1051,28 +1650,72 @@ elif page == "👤 Profil":
     </div>
     """, unsafe_allow_html=True)
 
-    prenom = st.text_input("Prénom", value=profil.get("prenom", ""))
-    nom = st.text_input("Nom", value=profil.get("nom", ""))
-    email = st.text_input("Email", value=profil.get("email", ""))
+
+    prenom = st.text_input(
+        "Prénom",
+        value=profil.get(
+            "prenom",
+            ""
+        )
+    )
+
+
+    nom = st.text_input(
+        "Nom",
+        value=profil.get(
+            "nom",
+            ""
+        )
+    )
+
+
+    email = st.text_input(
+        "Email",
+        value=profil.get(
+            "email",
+            ""
+        )
+    )
+
 
     age = st.number_input(
         "Âge",
         min_value=1,
         max_value=120,
-        value=int(profil.get("age", 18))
+        value=int(
+            profil.get(
+                "age",
+                18
+            )
+        )
     )
 
-    nationalites = ["Française", "Européenne", "Autre"]
-    ancienne_nationalite = profil.get("nationalite", "Française")
+
+    nationalites = [
+        "Française",
+        "Européenne",
+        "Autre"
+    ]
+
+
+    ancienne_nationalite = profil.get(
+        "nationalite",
+        "Française"
+    )
+
 
     if ancienne_nationalite not in nationalites:
         ancienne_nationalite = "Française"
 
+
     nationalite = st.selectbox(
         "Nationalité",
         nationalites,
-        index=nationalites.index(ancienne_nationalite)
+        index=nationalites.index(
+            ancienne_nationalite
+        )
     )
+
 
     logements = [
         "Je suis propriétaire",
@@ -1080,18 +1723,31 @@ elif page == "👤 Profil":
         "Je suis hébergé chez quelqu'un"
     ]
 
-    ancien_logement = profil.get("logement", logements[0])
+
+    ancien_logement = profil.get(
+        "logement",
+        logements[0]
+    )
+
 
     if ancien_logement not in logements:
         ancien_logement = logements[0]
 
+
     logement = st.selectbox(
         "Situation de logement",
         logements,
-        index=logements.index(ancien_logement)
+        index=logements.index(
+            ancien_logement
+        )
     )
 
-    if st.button("💾 Enregistrer mon profil", use_container_width=True):
+
+    if st.button(
+        "💾 Enregistrer mon profil",
+        use_container_width=True
+    ):
+
         st.session_state.profil = {
             "prenom": prenom.strip(),
             "nom": nom.strip(),
@@ -1101,11 +1757,19 @@ elif page == "👤 Profil":
             "logement": logement
         }
 
+
         sauvegarder()
-        st.success("✅ Profil enregistré !")
+
+
+        st.success(
+            "✅ Profil enregistré !"
+        )
+
         st.rerun()
 
+
     st.divider()
+
 
     st.markdown("""
     <div class="premium-card">
@@ -1115,29 +1779,43 @@ elif page == "👤 Profil":
     </div>
     """, unsafe_allow_html=True)
 
+
     st.divider()
-    st.markdown("### 🗑️ Zone de suppression")
+
+
+    st.markdown(
+        "### 🗑️ Zone de suppression"
+    )
+
 
     confirmation = st.checkbox(
         "Je confirme vouloir supprimer mon profil et tous mes dossiers."
     )
 
+
     if confirmation:
+
         if st.button(
             "🗑️ Supprimer toutes mes données",
             use_container_width=True
         ):
+
             try:
+
                 if os.path.exists(DATA_FILE):
                     os.remove(DATA_FILE)
+
             except Exception:
                 pass
 
+
             st.session_state.clear()
+
             st.rerun()
 
 
 st.divider()
+
 
 st.markdown("""
 <div class="footer">
