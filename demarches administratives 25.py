@@ -12,6 +12,10 @@ except ImportError:
     GEMINI_OK = False
 
 
+# ============================================================
+# CONFIGURATION
+# ============================================================
+
 st.set_page_config(
     page_title="Checklist à toute épreuve",
     page_icon="✅",
@@ -23,9 +27,14 @@ st.set_page_config(
 DATA_FILE = "checklist_toute_epreuve_v24.json"
 
 
+# ============================================================
+# STYLE
+# ============================================================
+
 st.markdown(
     """
     <style>
+
     .stApp {
         background:
             radial-gradient(circle at 5% 5%, rgba(59,130,246,.25), transparent 32%),
@@ -156,6 +165,7 @@ st.markdown(
     }
 
     @media (max-width: 600px) {
+
         .app-title {
             font-size: 34px;
         }
@@ -174,12 +184,18 @@ st.markdown(
             height: 76px;
             font-size: 38px;
         }
+
     }
+
     </style>
     """,
     unsafe_allow_html=True
 )
 
+
+# ============================================================
+# DONNÉES
+# ============================================================
 
 def donnees_vides():
     return {
@@ -190,10 +206,12 @@ def donnees_vides():
 
 
 def charger_donnees():
+
     if not os.path.exists(DATA_FILE):
         return donnees_vides()
 
     try:
+
         with open(DATA_FILE, "r", encoding="utf-8") as fichier:
             data = json.load(fichier)
 
@@ -210,6 +228,7 @@ def charger_donnees():
 
 
 def sauvegarder():
+
     data = {
         "version": "24",
         "profil": st.session_state.profil,
@@ -217,7 +236,9 @@ def sauvegarder():
     }
 
     try:
+
         with open(DATA_FILE, "w", encoding="utf-8") as fichier:
+
             json.dump(
                 data,
                 fichier,
@@ -237,15 +258,22 @@ data = charger_donnees()
 if "profil" not in st.session_state:
     st.session_state.profil = data["profil"]
 
+
 if "dossiers" not in st.session_state:
     st.session_state.dossiers = data["dossiers"]
+
 
 if "page" not in st.session_state:
     st.session_state.page = "🏠 Accueil"
 
+
 if "dossier_ouvert" not in st.session_state:
     st.session_state.dossier_ouvert = None
 
+
+# ============================================================
+# OUTILS
+# ============================================================
 
 def nouvel_id():
     return str(uuid.uuid4())
@@ -256,6 +284,7 @@ def maintenant():
 
 
 def creer_dossier(nom, documents):
+
     return {
         "id": nouvel_id(),
         "nom": nom,
@@ -267,6 +296,7 @@ def creer_dossier(nom, documents):
 
 
 def calculer_progression(dossier):
+
     documents = dossier.get("documents", [])
     coches = dossier.get("documents_coches", [])
 
@@ -286,25 +316,91 @@ def calculer_progression(dossier):
     return faits, total, pourcentage
 
 
+# ============================================================
+# GEMINI / STREAMLIT SECRETS
+# ============================================================
+
+def obtenir_cle_gemini():
+
+    """
+    Récupère la clé Gemini depuis Streamlit Secrets.
+
+    Dans Streamlit Cloud :
+    
+    Settings → Secrets
+
+    puis :
+
+    GEMINI_API_KEY = "ta_clé"
+    """
+
+    try:
+
+        cle = st.secrets.get("GEMINI_API_KEY")
+
+        if cle:
+            return str(cle).strip()
+
+    except Exception:
+        pass
+
+    return None
+
+
+def gemini_configure():
+
+    cle = obtenir_cle_gemini()
+
+    return bool(cle)
+
+
+def obtenir_client_gemini():
+
+    if not GEMINI_OK:
+        return None
+
+    cle = obtenir_cle_gemini()
+
+    if not cle:
+        return None
+
+    try:
+
+        return genai.Client(
+            api_key=cle
+        )
+
+    except Exception:
+        return None
+
+
+# ============================================================
+# CHECKLIST
+# ============================================================
+
 def checklist_demarche(situation, logement):
+
     documents = [
         "Pièce d'identité",
         "Justificatif de domicile récent"
     ]
 
     if situation == "Carte d'identité":
+
         documents += [
             "Photo d'identité conforme",
             "Ancienne carte d'identité si disponible"
         ]
 
     elif situation == "Passeport":
+
         documents += [
             "Photo d'identité conforme",
             "Ancien passeport si disponible"
         ]
 
     elif situation == "Permis de conduire":
+
         documents += [
             "Photo-signature numérique",
             "Justificatif d'identité",
@@ -312,18 +408,21 @@ def checklist_demarche(situation, logement):
         ]
 
     elif situation == "Changement d'adresse":
+
         documents += [
             "Ancienne adresse",
             "Nouvelle adresse"
         ]
 
     elif situation == "Inscription scolaire":
+
         documents += [
             "Livret de famille ou document équivalent",
             "Documents concernant l'enfant"
         ]
 
     elif situation == "Création d'entreprise":
+
         documents += [
             "Adresse de l'entreprise",
             "Informations sur l'activité",
@@ -331,6 +430,7 @@ def checklist_demarche(situation, logement):
         ]
 
     if logement == "Je suis hébergé chez quelqu'un":
+
         documents += [
             "Attestation d'hébergement",
             "Justificatif de domicile de l'hébergeant"
@@ -339,28 +439,23 @@ def checklist_demarche(situation, logement):
     resultat = []
 
     for document in documents:
+
         if document not in resultat:
             resultat.append(document)
 
     return resultat
 
 
-def obtenir_client_gemini():
-    if not GEMINI_OK:
-        return None
+# ============================================================
+# ANALYSE DOCUMENT
+# ============================================================
 
-    cle = os.environ.get("GEMINI_API_KEY")
+def analyser_document(
+    fichier,
+    nom_demarche,
+    checklist
+):
 
-    if not cle:
-        return None
-
-    try:
-        return genai.Client(api_key=cle)
-    except Exception:
-        return None
-
-
-def analyser_document(fichier, nom_demarche, checklist):
     client = obtenir_client_gemini()
 
     if client is None:
@@ -421,6 +516,7 @@ Règles importantes :
 """
 
     try:
+
         response = client.models.generate_content(
             model="gemini-3.6-flash",
             contents=[
@@ -435,10 +531,16 @@ Règles importantes :
         return response.text
 
     except Exception as erreur:
+
         return "ERREUR_ANALYSE\n" + str(erreur)
 
 
+# ============================================================
+# ASSISTANT GEMINI
+# ============================================================
+
 def assistant_gemini(question):
+
     client = obtenir_client_gemini()
 
     if client is None:
@@ -464,6 +566,7 @@ Règles :
 """
 
     try:
+
         response = client.models.generate_content(
             model="gemini-3.6-flash",
             contents=prompt
@@ -472,8 +575,13 @@ Règles :
         return response.text
 
     except Exception as erreur:
+
         return "Une erreur est survenue : " + str(erreur)
 
+
+# ============================================================
+# PROFIL INITIAL
+# ============================================================
 
 if st.session_state.profil is None:
 
@@ -510,14 +618,18 @@ if st.session_state.profil is None:
         unsafe_allow_html=True
     )
 
-    prenom = st.text_input("Prénom")
+    prenom = st.text_input(
+        "Prénom"
+    )
 
     nom = st.text_input(
         "Nom",
         placeholder="Facultatif"
     )
 
-    email = st.text_input("Email")
+    email = st.text_input(
+        "Email"
+    )
 
     age = st.number_input(
         "Âge",
@@ -550,10 +662,16 @@ if st.session_state.profil is None:
     ):
 
         if not prenom.strip():
-            st.warning("⚠️ Indiquez votre prénom.")
+
+            st.warning(
+                "⚠️ Indiquez votre prénom."
+            )
 
         elif not email.strip():
-            st.warning("⚠️ Indiquez votre adresse email.")
+
+            st.warning(
+                "⚠️ Indiquez votre adresse email."
+            )
 
         else:
 
@@ -568,12 +686,18 @@ if st.session_state.profil is None:
 
             sauvegarder()
 
-            st.success("🎉 Profil créé !")
+            st.success(
+                "🎉 Profil créé !"
+            )
 
             st.rerun()
 
     st.stop()
 
+
+# ============================================================
+# EN-TÊTE
+# ============================================================
 
 profil = st.session_state.profil
 
@@ -612,7 +736,9 @@ if st.session_state.page not in pages:
 page = st.radio(
     "Navigation",
     pages,
-    index=pages.index(st.session_state.page),
+    index=pages.index(
+        st.session_state.page
+    ),
     horizontal=True,
     label_visibility="collapsed"
 )
@@ -621,6 +747,10 @@ st.session_state.page = page
 
 st.divider()
 
+
+# ============================================================
+# AFFICHER UN DOSSIER
+# ============================================================
 
 def afficher_dossier(dossier):
 
@@ -634,7 +764,9 @@ def afficher_dossier(dossier):
         unsafe_allow_html=True
     )
 
-    faits, total, pourcentage = calculer_progression(dossier)
+    faits, total, pourcentage = calculer_progression(
+        dossier
+    )
 
     st.markdown(
         f"""
@@ -649,11 +781,16 @@ def afficher_dossier(dossier):
         unsafe_allow_html=True
     )
 
-    st.progress(pourcentage / 100)
+    st.progress(
+        pourcentage / 100
+    )
 
-    st.write(f"**{pourcentage}% terminé**")
+    st.write(
+        f"**{pourcentage}% terminé**"
+    )
 
     if pourcentage == 100:
+
         st.markdown(
             """
             <div class="done-card">
@@ -665,7 +802,9 @@ def afficher_dossier(dossier):
             unsafe_allow_html=True
         )
 
-    st.markdown("### ✅ Ma checklist")
+    st.markdown(
+        "### ✅ Ma checklist"
+    )
 
     st.caption(
         "Coche les documents que tu possèdes déjà."
@@ -714,7 +853,9 @@ def afficher_dossier(dossier):
 
         sauvegarder()
 
-        st.success("✅ Checklist enregistrée !")
+        st.success(
+            "✅ Checklist enregistrée !"
+        )
 
         st.session_state.dossier_ouvert = dossier["id"]
 
@@ -722,7 +863,9 @@ def afficher_dossier(dossier):
 
     st.divider()
 
-    st.markdown("### 📄 Vérifier un document")
+    st.markdown(
+        "### 📄 Vérifier un document"
+    )
 
     st.markdown(
         """
@@ -777,12 +920,16 @@ def afficher_dossier(dossier):
                     "py -m pip install google-genai"
                 )
 
-            elif not os.environ.get(
-                "GEMINI_API_KEY"
-            ):
+            elif not gemini_configure():
 
                 st.error(
-                    "❌ GEMINI_API_KEY n'est pas configurée."
+                    "❌ GEMINI_API_KEY n'est pas configurée "
+                    "dans Streamlit Secrets."
+                )
+
+                st.info(
+                    "Allez dans Settings → Secrets "
+                    "et ajoutez GEMINI_API_KEY."
                 )
 
             else:
@@ -794,7 +941,10 @@ def afficher_dossier(dossier):
                     resultat = analyser_document(
                         fichier,
                         dossier["nom"],
-                        dossier.get("documents", [])
+                        dossier.get(
+                            "documents",
+                            []
+                        )
                     )
 
                 if resultat:
@@ -807,7 +957,9 @@ def afficher_dossier(dossier):
                         "### 🤖 Résultat"
                     )
 
-                    st.markdown(resultat)
+                    st.markdown(
+                        resultat
+                    )
 
                     dossier.setdefault(
                         "analyses",
@@ -860,6 +1012,10 @@ def afficher_dossier(dossier):
                 )
 
 
+# ============================================================
+# ACCUEIL
+# ============================================================
+
 if page == "🏠 Accueil":
 
     st.markdown(
@@ -896,23 +1052,27 @@ if page == "🏠 Accueil":
         documents_total += total
 
         if total > 0 and pourcentage == 100:
+
             dossiers_termines += 1
 
     col1, col2, col3 = st.columns(3)
 
     with col1:
+
         st.metric(
             "📋 Dossiers",
             total_dossiers
         )
 
     with col2:
+
         st.metric(
             "🎉 Terminés",
             dossiers_termines
         )
 
     with col3:
+
         st.metric(
             "✅ Documents",
             f"{documents_faits}/{documents_total}"
@@ -1016,6 +1176,10 @@ if page == "🏠 Accueil":
             )
 
 
+# ============================================================
+# NOUVELLE DÉMARCHE
+# ============================================================
+
 elif page == "➕ Nouvelle démarche":
 
     st.markdown(
@@ -1060,7 +1224,10 @@ elif page == "➕ Nouvelle démarche":
         ):
 
             for document in documents:
-                st.write("☐ " + document)
+
+                st.write(
+                    "☐ " + document
+                )
 
         if st.button(
             "🚀 Créer mon dossier",
@@ -1132,12 +1299,16 @@ elif page == "➕ Nouvelle démarche":
                     "py -m pip install google-genai"
                 )
 
-            elif not os.environ.get(
-                "GEMINI_API_KEY"
-            ):
+            elif not gemini_configure():
 
                 st.error(
-                    "❌ GEMINI_API_KEY n'est pas configurée."
+                    "❌ GEMINI_API_KEY n'est pas configurée "
+                    "dans Streamlit Secrets."
+                )
+
+                st.info(
+                    "Allez dans Settings → Secrets "
+                    "et ajoutez GEMINI_API_KEY."
                 )
 
             else:
@@ -1195,7 +1366,10 @@ Règles :
                             document = ligne[2:].strip()
 
                             if document:
-                                documents.append(document)
+
+                                documents.append(
+                                    document
+                                )
 
                     if not documents:
 
@@ -1236,6 +1410,10 @@ Règles :
                         str(erreur)
                     )
 
+
+# ============================================================
+# MES DOSSIERS
+# ============================================================
 
 elif page == "📋 Mes dossiers":
 
@@ -1312,7 +1490,9 @@ elif page == "📋 Mes dossiers":
                 )
             ):
 
-                afficher_dossier(dossier)
+                afficher_dossier(
+                    dossier
+                )
 
                 st.divider()
 
@@ -1343,6 +1523,10 @@ elif page == "📋 Mes dossiers":
 
                     st.rerun()
 
+
+# ============================================================
+# ASSISTANT
+# ============================================================
 
 elif page == "🤖 Assistant":
 
@@ -1392,12 +1576,16 @@ elif page == "🤖 Assistant":
                 "py -m pip install google-genai"
             )
 
-        elif not os.environ.get(
-            "GEMINI_API_KEY"
-        ):
+        elif not gemini_configure():
 
             st.error(
-                "❌ GEMINI_API_KEY n'est pas configurée."
+                "❌ GEMINI_API_KEY n'est pas configurée "
+                "dans Streamlit Secrets."
+            )
+
+            st.info(
+                "Allez dans Settings → Secrets "
+                "et ajoutez GEMINI_API_KEY."
             )
 
         else:
@@ -1429,6 +1617,10 @@ elif page == "🤖 Assistant":
     )
 
 
+# ============================================================
+# PROFIL
+# ============================================================
+
 elif page == "👤 Profil":
 
     st.markdown(
@@ -1450,17 +1642,26 @@ elif page == "👤 Profil":
 
     prenom = st.text_input(
         "Prénom",
-        value=profil.get("prenom", "")
+        value=profil.get(
+            "prenom",
+            ""
+        )
     )
 
     nom = st.text_input(
         "Nom",
-        value=profil.get("nom", "")
+        value=profil.get(
+            "nom",
+            ""
+        )
     )
 
     email = st.text_input(
         "Email",
-        value=profil.get("email", "")
+        value=profil.get(
+            "email",
+            ""
+        )
     )
 
     age = st.number_input(
@@ -1468,7 +1669,10 @@ elif page == "👤 Profil":
         min_value=1,
         max_value=120,
         value=int(
-            profil.get("age", 18)
+            profil.get(
+                "age",
+                18
+            )
         )
     )
 
@@ -1484,6 +1688,7 @@ elif page == "👤 Profil":
     )
 
     if ancienne_nationalite not in nationalites:
+
         ancienne_nationalite = "Française"
 
     nationalite = st.selectbox(
@@ -1506,6 +1711,7 @@ elif page == "👤 Profil":
     )
 
     if ancien_logement not in logements:
+
         ancien_logement = logements[0]
 
     logement = st.selectbox(
@@ -1587,6 +1793,10 @@ elif page == "👤 Profil":
 
             st.rerun()
 
+
+# ============================================================
+# PIED DE PAGE
+# ============================================================
 
 st.divider()
 
